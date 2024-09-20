@@ -133,19 +133,19 @@
         });
 
         // 图片点击事件
-        roomImage.addEventListener("click", function(event) {
+           roomImage.addEventListener("click", function(event) {
             var x = event.clientX;
             var y = event.clientY;
-			var screenWidth = window.innerWidth;
-            var screenHeight = window.innerHeight;
-
-		// 计算相对坐标
-            var relativeX = x / screenWidth;
-            var relativeY = y / screenHeight;
+			var imgWidth = roomImage.offsetWidth;
+			var imgHeight = roomImage.offsetHeight;
+			
+			            // 计算相对坐标
+			            var relativeX = x / imgWidth;
+			            var relativeY = y / imgHeight;
 
            if (relativeX > 0.15 && relativeX < 0.35 && relativeY >0.25 && relativeY < 0.4) {
                           showDialog(dialog1);
-                      } else if (relativeX > 0.15 && relativeX < 0.65 && relativeY >0.6 && relativeY < 0.75) {
+                      } else if (relativeX > 0.15 && relativeX < 0.65 && relativeY >0.55 && relativeY < 0.75) {
                           showDialog(dialog2);
                       } else if (relativeX > 0.7 && relativeX < 0.85 && relativeY > 0.6 && relativeY < 0.75) {
                           showDialog(dialog3);
