@@ -136,18 +136,23 @@
         roomImage.addEventListener("click", function(event) {
             var x = event.clientX;
             var y = event.clientY;
+			var screenWidth = window.innerWidth;
+            var screenHeight = window.innerHeight;
 
-            if (x >200 && x < 350 && y > 0 && y < 350) {
-                showDialog(dialog1);
-            } else if (x > 400 && x < 700 && y >200 && y < 600) {
-                showDialog(dialog2);
-            } else if (x > 900 && x < 1400 && y > 400 && y < 600) {
-                showDialog(dialog3);
-            } else if (x > 1000 && x < 1400 && y > 0 && y < 400) {
-                showDialog(dialog4);
-            }
-        });
+		// 计算相对坐标
+            var relativeX = x / screenWidth;
+            var relativeY = y / screenHeight;
 
+           if (relativeX > 0.15 && relativeX < 0.35 && relativeY >0.25 && relativeY < 0.4) {
+                          showDialog(dialog1);
+                      } else if (relativeX > 0.15 && relativeX < 0.65 && relativeY >0.6 && relativeY < 0.75) {
+                          showDialog(dialog2);
+                      } else if (relativeX > 0.7 && relativeX < 0.85 && relativeY > 0.6 && relativeY < 0.75) {
+                          showDialog(dialog3);
+                      } else if (relativeX > 0.65 && relativeX < 0.9 && relativeY > 0 && relativeY < 0.5) {
+                          showDialog(dialog4);
+                      }
+                  });
         // 显示对话框
         function showDialog(dialog) {
             dialog.style.display = "block";
