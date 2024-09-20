@@ -147,7 +147,7 @@
                           showDialog(dialog1);
                       } else if (relativeX > 0.15 && relativeX < 0.65 && relativeY >0.55 && relativeY < 0.75) {
                           showDialog(dialog2);
-                      } else if (relativeX > 0.7 && relativeX < 0.85 && relativeY > 0.6 && relativeY < 0.75) {
+                      } else if (relativeX > 0.75 && relativeX < 0.85 && relativeY > 0.55 && relativeY < 0.8) {
                           showDialog(dialog3);
                       } else if (relativeX > 0.65 && relativeX < 0.9 && relativeY > 0 && relativeY < 0.5) {
                           showDialog(dialog4);
@@ -208,7 +208,7 @@
             clearTimeout(timeoutId); // 清除之前的计时器
             timeoutId = setTimeout(function() {
                 showDialog(captureDialog);
-            }, 45000); // 45秒后显示抓获对话框
+            }, 40000); // 40秒后显示抓获对话框
         }
 
         // 关闭抓获对话框后显示 Game Over 对话框
