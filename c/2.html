@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奇怪的小楼</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        .dialog-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="initialDialog" class="dialog-box">
+    <p>当你走出房间后，发现你在一栋小楼中。当你走出去时，不知怎么触发了警报，被一名长黑卷发男子和一名半长银发男子抓获。</p>
+</div>
+
+<div id="gameOverDialog" class="dialog-box">
+    <p>Game Over</p>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var initialDialog = document.getElementById("initialDialog");
+        var gameOverDialog = document.getElementById("gameOverDialog");
+
+        // 显示初始对话框
+        initialDialog.style.display = "block";
+
+        // 点击初始对话框后显示 Game Over 对话框
+        initialDialog.addEventListener("click", function() {
+            initialDialog.style.display = "none";
+            gameOverDialog.style.display = "block";
+        });
+
+        // 点击 Game Over 对话框后跳转到新页面
+        gameOverDialog.addEventListener("click", function() {
+            window.location.href = "1.html";
+        });
+    });
+</script>
+
+</body>
+</html>
