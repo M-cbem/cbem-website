@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奇怪的房间</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        .dialog-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        #image-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+    </style>
+	<audio src="pink_and_golden_billows.mp3" autoplay loop></audio>
+</head>
+<body>
+
+<!-- 初始对话框 -->
+<div id="initialDialog" class="dialog-box">
+    <p>一睁眼，你来到了一个奇怪的房间，这时候你选择：</p>
+    <button id="stayButton" class="button">留在房间中探查</button>
+    <button id="leaveButton" class="button">离开房间，找到回去的方法</button>
+</div>
+
+<!-- 图片容器 -->
+<div id="image-container" style="display: none;">
+    <img src="sc.jpg" alt="Room Image" id="roomImage">
+</div>
+
+<!-- 对话框 1 -->
+<div id="dialog1" class="dialog-box">
+    <p id="dialog1Part1">你发现了一本食谱（？）。</p>
+    <p id="dialog1Part2" style="display: none;">￥%#%@&%￥<br />但是上面的文字你却看不懂，只能通过上面的食物图片来推测。</p>
+    <button class="close-button" onclick="closeDialog('dialog1')">关闭</button>
+</div>
+
+<!-- 对话框 2 -->
+<div id="dialog2" class="dialog-box">
+    <p id="dialog2Part1">你站在床边观察。</p>
+    <p id="dialog2Part2" style="display: none;">为什么床上会有黑白两色的头发。<br />你观察了一下它们发现不出自同一个人。<br />哦不看看它们的样子吧，有几根都打结了。</p>
+    <button class="close-button" onclick="closeDialog('dialog2')">关闭</button>
+</div>
+
+<!-- 对话框 3 -->
+<div id="dialog3" class="dialog-box">
+    <p id="dialog3Part1">你发现了些散落的纸。</p>
+    <p id="dialog3Part2" style="display: none;">上面写着吸血鬼、秘族、摩羯洲什么的。</p>
+    <button class="close-button" onclick="closeDialog('dialog3')">关闭</button>
+</div>
+
+<!-- 对话框 4 -->
+<div id="dialog4" class="dialog-box">
+    <p id="dialog4Part1">你站在窗口。</p>
+    <p id="dialog4Part2" style="display: none;">从窗口往外看可以看到一个小型社区，房子坐落于路边。</p>
+    <button class="close-button" onclick="closeDialog('dialog4')">关闭</button>
+</div>
+
+<!-- 抓获对话框 -->
+<div id="captureDialog" class="dialog-box">
+    <p>因为你停留太久了，被房子的主人(疑似)——一名长黑卷发男子和一名半长银发男子抓获了。<br />
+    等等，他们怎么看着好像很眼熟。<br />
+    不对。<br />
+	接着你眼前一黑从房间中消失了。</p>
+</div>
+
+<!-- Game Over 对话框 -->
+<div id="gameOverDialog" class="dialog-box">
+    <p>Game Over</p>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var initialDialog = document.getElementById("initialDialog");
+        var roomImage = document.getElementById("roomImage");
+        var dialog1 = document.getElementById("dialog1");
+        var dialog2 = document.getElementById("dialog2");
+        var dialog3 = document.getElementById("dialog3");
+        var dialog4 = document.getElementById("dialog4");
+        var captureDialog = document.getElementById("captureDialog");
+        var gameOverDialog = document.getElementById("gameOverDialog");
+        var timeoutId;
+
+        // 显示初始对话框
+        initialDialog.style.display = "block";
+
+        // 设置点击事件
+        document.getElementById("stayButton").addEventListener("click", function() {
+            initialDialog.style.display = "none";
+            document.getElementById("image-container").style.display = "block";
+            startTimer();
+        });
+
+        document.getElementById("leaveButton").addEventListener("click", function() {
+            window.location.href = "2.html";
+        });
+
+        // 图片点击事件
+        roomImage.addEventListener("click", function(event) {
+            var x = event.clientX;
+            var y = event.clientY;
+
+            if (x >200 && x < 350 && y > 0 && y < 350) {
+                showDialog(dialog1);
+            } else if (x > 400 && x < 700 && y >200 && y < 600) {
+                showDialog(dialog2);
+            } else if (x > 900 && x < 1400 && y > 400 && y < 600) {
+                showDialog(dialog3);
+            } else if (x > 1000 && x < 1400 && y > 0 && y < 400) {
+                showDialog(dialog4);
+            }
+        });
+
+        // 显示对话框
+        function showDialog(dialog) {
+            dialog.style.display = "block";
+        }
+
+        // 关闭对话框
+        function closeDialog(dialogId) {
+            var dialog = document.getElementById(dialogId);
+            dialog.style.display = "none";
+        }
+
+        // 显示第二段话
+        function showNextPart(dialogId) {
+            var part1 = document.getElementById(dialogId + "Part1");
+            var part2 = document.getElementById(dialogId + "Part2");
+
+            if (part2.style.display === "none") {
+                part2.style.display = "block";
+            }
+        }
+
+        // 关闭对话框后检查是否所有对话框已关闭
+        document.getElementById("dialog1").addEventListener("click", function() {
+            showNextPart("dialog1");
+            checkAllClosed();
+        });
+
+        document.getElementById("dialog2").addEventListener("click", function() {
+            showNextPart("dialog2");
+            checkAllClosed();
+        });
+
+        document.getElementById("dialog3").addEventListener("click", function() {
+            showNextPart("dialog3");
+            checkAllClosed();
+        });
+
+        document.getElementById("dialog4").addEventListener("click", function() {
+            showNextPart("dialog4");
+            checkAllClosed();
+        });
+
+        // 关闭对话框
+        document.querySelectorAll('.close-button').forEach(button => {
+            button.addEventListener('click', function() {
+                var dialogId = this.parentNode.id;
+                closeDialog(dialogId);
+            });
+        });
+
+        // 开始计时器
+        function startTimer() {
+            clearTimeout(timeoutId); // 清除之前的计时器
+            timeoutId = setTimeout(function() {
+                showDialog(captureDialog);
+            }, 60000); // 60秒后显示抓获对话框
+        }
+
+        // 关闭抓获对话框后显示 Game Over 对话框
+        captureDialog.addEventListener("click", function() {
+             captureDialog.style.display="none";
+			  gameOverDialog.style.display = "block";
+        });
+
+        // 关闭 Game Over 对话框
+        gameOverDialog.addEventListener("click", function() {
+            // 清除计时器
+            clearTimeout(timeoutId);
+        });
+    });
+</script>
+
+</body>
+</html>
